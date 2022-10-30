@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <Version>0.1.0</Version>
+    <Authors>ttd2089</Authors>
+    <Copyright>Copyright © 2022</Copyright>
+    <Description>A generic apply function for fluent expressions.</Description>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+</Project>
