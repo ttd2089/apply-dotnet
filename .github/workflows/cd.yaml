@@ -39,13 +39,16 @@ jobs:
               }')
         id=$(echo ${resp} | jq -r .id)
         if ! [ "${id}" = "null" ]; then
+          echo "Releasing ${VERSION}"
           echo "release=${id}" >> ${GITHUB_OUTPUT}
           exit 0
         fi
         error_code=$(echo ${resp} | jq -r '.errors[0].code')
         if [ "$error_code" = "already_exists" ]; then
+          echo "Already released ${VERSION}"
           exit 0
         fi
+        echo $resp
         echo 'Unexpected response when creating release:' >> ${GITHUB_STEP_SUMMARY}
         echo '```json' >> ${GITHUB_STEP_SUMMARY}
         echo $resp | jq >> ${GITHUB_STEP_SUMMARY}
