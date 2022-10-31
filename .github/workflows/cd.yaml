@@ -52,15 +52,15 @@ jobs:
         exit 1
 
     - name: Test
-      if: steps.release.outputs.release-id !== null
+      if: steps.release.outputs.release-id
       run: dotnet test
 
     - name: Pack
-      if: steps.release.outputs.release-id !== null
+      if: steps.release.outputs.release-id
       run: dotnet pack -c Release -o ./pack
 
     - name: Publish
-      if: steps.release.outputs.release-id !== null
+      if: steps.release.outputs.release-id
       env:
         NUGET_SOURCE: https://api.nuget.org/v3/index.json
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
