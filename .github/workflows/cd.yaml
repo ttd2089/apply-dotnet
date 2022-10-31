@@ -6,6 +6,7 @@ permissions:
   contents: write
 jobs:
   cd:
+    name: Continuous Delivery
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Code
@@ -38,7 +39,7 @@ jobs:
               }')
         id=$(echo ${resp} | jq)
         if ! [ "${id}" = "null" ]; then
-          echo "release=true" >> ${GITHUB_OUTPUT}
+          echo "release_id=${id}" >> ${GITHUB_OUTPUT}
           exit 0
         fi
         error_code=$(echo ${resp} | jq -r '.errors[0].code')
@@ -56,11 +57,11 @@ jobs:
       run: dotnet test
 
     - name: Pack
-      if: steps.release.outputs.release
+      if: steps.release.outputs.release_id
       run: dotnet pack -c Release -o ./pack
 
     - name: Publish
-      if: steps.release.outputs.release
+      if: steps.release.outputs.release_id
       env:
         NUGET_SOURCE: https://api.nuget.org/v3/index.json
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
@@ -69,11 +70,12 @@ jobs:
     - name: Finalize Release
       env:
         VERISON: ${{ steps.version.outputs.version }}
+        RELEASE_ID: ${{ steps.release.outputs.release_id }}
       run: |-
-        curl -X PUT \
+        curl -X PATCH \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-          ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases \
+          ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID} \
           -d '{
                 "tag_name": "'${VERSION}'",
                 "target_commitish": "'${GITHUB_SHA}'",
