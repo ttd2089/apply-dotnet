@@ -19,7 +19,7 @@ jobs:
 
     - name: Get Version
       id: version
-      run: echo "version=v$(grep -Po -e '(?<=<Version>)[^<]+' Ttd2089.Apply/Ttd2089.Apply.csproj)" >> ${GITHUB_OUTPUT}
+      run: echo "version=$(grep -Po -e '(?<=<Version>)[^<]+' Ttd2089.Apply/Ttd2089.Apply.csproj)" >> ${GITHUB_OUTPUT}
 
     - name: Create Prerelease
       id: release
