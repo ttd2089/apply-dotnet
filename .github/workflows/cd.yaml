@@ -26,7 +26,7 @@ jobs:
       env:
         VERSION: ${{ steps.version.outputs.version }}
       run: |-
-        resp=$(curl -X POST \
+        resp=$(curl -s -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases \
@@ -75,7 +75,7 @@ jobs:
         VERISON: ${{ steps.version.outputs.version }}
         RELEASE: ${{ steps.release.outputs.release }}
       run: |-
-        curl -X PATCH \
+        curl -s -X PATCH \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
           ${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/${RELEASE} \
