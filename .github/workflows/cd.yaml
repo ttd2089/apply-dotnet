@@ -2,8 +2,7 @@ name: Continuous Delivery
 on:
   push:
     branches: [main]
-permissions:
-  contents: write
+permissions: write-all
 jobs:
   cd:
     name: Continuous Delivery
