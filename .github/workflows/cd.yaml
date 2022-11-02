@@ -72,7 +72,7 @@ jobs:
     - name: Finalize Release
       if: steps.release.outputs.release
       env:
-        VERISON: ${{ steps.version.outputs.version }}
+        VERSION: ${{ steps.version.outputs.version }}
         RELEASE: ${{ steps.release.outputs.release }}
       run: |-
         curl -s -X PATCH \
